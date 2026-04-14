@@ -1,0 +1,68 @@
+{
+  "name": "azm-erp",
+  "version": "1.0.0",
+  "description": "A comprehensive Enterprise Resource Planning (ERP) solution designed to streamline business operations, including finance, human resources, inventory, and sales management in a unified platform.",
+  "main": "app.js",
+  "private": "true",
+  "scripts": {
+    "dev": "pnpm run lint:fix & nodemon --watch src --ext ts --exec tsx src/server/server.ts",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "keywords": [
+    "erp",
+    "enterprise-resource-planning",
+    "business-management",
+    "inventory-management",
+    "hr-management",
+    "finance-software",
+    "nodejs",
+    "javascript",
+    "erp-system",
+    "modular-erp",
+    "backend",
+    "automation"
+  ],
+  "author": "AZM GROUP",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "axios": "^1.15.0",
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^8.3.2",
+    "form-data": "^4.0.5",
+    "helmet": "^8.1.0",
+    "hpp": "^0.2.3",
+    "html-react-parser": "^6.0.1",
+    "js-cookie": "^3.0.5",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.4.1",
+    "multer": "^2.1.1",
+    "nodemailer": "^8.0.5",
+    "nodemon": "^3.1.14",
+    "xss-clean": "^0.1.4",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.2.0",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.2",
+    "typescript-eslint": "^8.58.2"
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "onFail": "error"
+    },
+    "packageManager": {
+      "name": "pnpm",
+      "onFail": "error"
+    }
+  }
+}

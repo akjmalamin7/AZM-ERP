@@ -1,0 +1,8 @@
+import { Request, Response } from "express";
+import { Document, Model } from "mongoose";
+export type CreateServicesParams<T extends Document> = {
+  req: Request;
+  res: Response;
+  model: Model<T>;
+  message?: string;
+};
