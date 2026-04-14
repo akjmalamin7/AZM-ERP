@@ -13,12 +13,16 @@ const userSchema = new Schema<IUser>(
   { timestamps: true, versionKey: false },
 );
 userSchema.methods.generateJWT = function (): string {
+  const secret = process.env.SECRET_KEY;
+  if (!secret) {
+    throw new Error("SECRET_KEY is not defined");
+  }
   const token = jwt.sign(
     {
       _id: this._id,
       email: this.email,
     },
-    process.env.SECRET_KEY,
+    secret,
     { expiresIn: "1d" },
   );
   return token;
