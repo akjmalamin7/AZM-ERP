@@ -1,3 +1,4 @@
+import { CreateServicesParams } from "@/config/types/types";
 import { Document } from "mongoose";
 
 export const createService = async <T extends Document>({
@@ -16,6 +17,8 @@ export const createService = async <T extends Document>({
       data: data,
     });
   } catch (err) {
-    return res.status(400).json({ status: "failed", message: err.message });
+    const errorMessage =
+      err instanceof Error ? err.message : "An error occurred";
+    return res.status(400).json({ status: "failed", message: errorMessage });
   }
 };

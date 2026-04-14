@@ -1,11 +1,12 @@
 import UserModel from "@/models/user/userModel";
 import { createService } from "@/services/create/createServer";
 import createOTPService from "@/services/user/createOTPService";
-const createUserController = async (req, res) => {
+import { Request, Response } from "express";
+const createUserController = async (req: Request, res: Response) => {
   await createService({ req, res, model: UserModel });
 };
 
-const userOtpController = async (req, res) => {
+const userOtpController = async (req: Request, res: Response) => {
   await createOTPService({
     req,
     res,

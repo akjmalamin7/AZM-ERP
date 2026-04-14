@@ -30,8 +30,10 @@ const createOTPService = async <T extends Document>({
       status: "success",
       message: message || "6 Digit OTP has been send",
     });
-  } catch (err: string) {
-    return res.status(400).json({ status: "failed", message: err.message });
+  } catch (err: unknown) {
+    const errorMessage =
+      err instanceof Error ? err.message : "An error occurred";
+    return res.status(400).json({ status: "failed", message: errorMessage });
   }
 };
 
