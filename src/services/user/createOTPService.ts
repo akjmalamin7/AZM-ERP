@@ -1,7 +1,6 @@
 import { emailSender } from "@/config/helper";
 import { Document } from "mongoose";
-
-const createOTPService = async <T extends Document>({
+export const createOTPService = async <T extends Document>({
   req,
   res,
   model,
@@ -9,6 +8,10 @@ const createOTPService = async <T extends Document>({
 }: CreateServiceParams<T>) => {
   try {
     const { email } = req.body;
+    if (!email)
+      return res
+        .status(400)
+        .json({ status: "failed", message: "Email not found!" });
     const otp_code = Math.floor(100000 + Math.random() * 900000);
 
     const email_text = `Your verification code is = ${otp_code}`;
@@ -30,11 +33,9 @@ const createOTPService = async <T extends Document>({
       status: "success",
       message: message || "6 Digit OTP has been send",
     });
-  } catch (err: unknown) {
+  } catch (error: unknown) {
     const errorMessage =
-      err instanceof Error ? err.message : "An error occurred";
+      error instanceof Error ? error.message : "An error occurred";
     return res.status(400).json({ status: "failed", message: errorMessage });
   }
 };
-
-export default createOTPService;

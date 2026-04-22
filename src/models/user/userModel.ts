@@ -2,13 +2,22 @@ import jwt from "jsonwebtoken";
 import { Document, Schema, model } from "mongoose";
 export interface IUser extends Document {
   email: string;
-  otp: string;
+  otp: string | null;
+  otpExpires: Date | null;
+  role: "super_admin" | "admin" | "editor" | "moderator" | "employee";
   generateJWT(): string;
 }
 const userSchema = new Schema<IUser>(
   {
     email: { type: String, required: true, unique: true, lowercase: true },
     otp: { type: String, required: true, minlength: 4, maxlength: 6 },
+    otpExpires: { type: Date, default: null },
+    role: {
+      type: String,
+      enum: ["super_admin", "admin", "editor", "moderator", "employee"],
+      default: "employee",
+      required: true,
+    },
   },
   { timestamps: true, versionKey: false },
 );
