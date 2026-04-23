@@ -19,7 +19,8 @@ const userOtpVerifyController = async (req: Request, res: Response) => {
     req,
     res,
     model: UserModel,
-    message: "OTP verify successfully",
+    message: "User created successfully",
   });
 };
 export { createUserController, userOtpController, userOtpVerifyController };
+

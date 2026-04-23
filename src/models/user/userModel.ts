@@ -6,6 +6,7 @@ export interface IUser extends Document {
   otpExpires: Date | null;
   role: "super_admin" | "admin" | "editor" | "moderator" | "employee";
   generateJWT(): string;
+  password:string;
 }
 const userSchema = new Schema<IUser>(
   {
@@ -18,6 +19,7 @@ const userSchema = new Schema<IUser>(
       default: "employee",
       required: true,
     },
+    password:{type:String,required:true}
   },
   { timestamps: true, versionKey: false },
 );
