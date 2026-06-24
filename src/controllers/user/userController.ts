@@ -1,25 +1,18 @@
-import UserModel from "@/models/user/userModel";
-import { createService } from "@/services/create";
-import { createOTPService, verifyOtpService } from "@/services/user";
+import UserModel from "@/models/user/user_model";
+import { registrationService } from "@/services/user";
+import { loginService } from "@/services/user/login_service";
 import { Request, Response } from "express";
-const createUserController = async (req: Request, res: Response) => {
-  await createService({ req, res, model: UserModel });
+
+const registration_controller = async (req: Request, res: Response) => {
+  await registrationService({
+    req,
+    res,
+    model: UserModel,
+    message: "Successfully created",
+  });
+};
+const login_controller = async (req: Request, res: Response) => {
+  await loginService(req, res);
 };
 
-const userOtpController = async (req: Request, res: Response) => {
-  await createOTPService({
-    req,
-    res,
-    model: UserModel,
-    message: "OTP sent successfully",
-  });
-};
-const userOtpVerifyController = async (req: Request, res: Response) => {
-  await verifyOtpService({
-    req,
-    res,
-    model: UserModel,
-    message: "OTP verify successfully",
-  });
-};
-export { createUserController, userOtpController, userOtpVerifyController };
+export { login_controller, registration_controller };

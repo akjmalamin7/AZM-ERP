@@ -1,45 +1,31 @@
-import { NextFunction, Request, Response } from "express";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import { NextFunction, Response } from "express";
+import { AuthRequest } from "./authMiddleWares";
 
-export interface AuthRequest extends Request {
-  user?: string | JwtPayload;
-}
+const authorize =
+  (...roles: string[]) =>
+  (req: AuthRequest, res: Response, next: NextFunction): void => {
+    if (
+      !req.user ||
+      typeof req.user === "string" ||
+      !("role" in req.user) ||
+      typeof req.user.role !== "string"
+    ) {
+      res.status(401).json({
+        status: "failed",
+        message: "Unauthorized",
+      });
+      return;
+    }
 
-const authMiddleware = (
-  req: AuthRequest,
-  res: Response,
-  next: NextFunction,
-): Response | void => {
-  let token = req.header("Authorization");
+    if (!roles.includes(req.user.role)) {
+      res.status(403).json({
+        status: "failed",
+        message: "Permission denied",
+      });
+      return;
+    }
 
-  if (!token && req.cookies && req.cookies.token) {
-    token = `Bearer ${req.cookies.token}`;
-  }
-
-  if (!token) {
-    return res.status(401).json({
-      status: "failed",
-      message: "Access denied. No token provided!",
-    });
-  }
-
-  try {
-    const extractedToken = token.split(" ")[1].trim();
-
-    const decoded = jwt.verify(
-      extractedToken,
-      process.env.SECRET_KEY as string,
-    );
-
-    req.user = decoded;
     next();
-  } catch (err: unknown) {
-    console.log(err);
-    return res.status(400).json({
-      status: "fail",
-      message: "Invalid token",
-    });
-  }
-};
+  };
 
-export default authMiddleware;
+export default authorize;
