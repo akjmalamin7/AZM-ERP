@@ -1,5 +1,6 @@
 import { OrderModel } from "@/models/inventory";
 import {
+  cancel_order_service,
   create_order_service,
   get_all_orders_service,
   get_order_service,
@@ -28,5 +29,13 @@ export const get_order = async (req: Request, res: Response) => {
     res,
     model: OrderModel,
     message: "Order retrieved successfully",
+  });
+};
+export const canceled_order = async (req: Request, res: Response) => {
+  await cancel_order_service({
+    req,
+    res,
+    model: OrderModel,
+    message: "Order canceled successfully",
   });
 };

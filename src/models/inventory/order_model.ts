@@ -11,7 +11,10 @@ export interface IOrder extends Document {
   subtotal: number;
   discount: number;
   total: number;
+  status: "completed" | "cancelled";
   payment_status: "paid" | "unpaid" | "partial";
+  cancel_reason: string;
+  cancelled_at?: string;
   user?: string;
 }
 const order_schema = new Schema<IOrder>(
@@ -42,6 +45,20 @@ const order_schema = new Schema<IOrder>(
     discount: { type: Number, required: true, default: 0 },
     subtotal: { type: Number, required: true, default: 0 },
     total: { type: Number, required: true, default: 0 },
+    status: {
+      type: String,
+      enum: ["completed", "cancelled"],
+      default: "completed",
+    },
+
+    cancel_reason: {
+      type: String,
+      default: "",
+    },
+
+    cancelled_at: {
+      type: Date,
+    },
     payment_status: { type: String, required: true, default: "unpaid" },
     user: { type: Types.ObjectId, ref: "User" },
   },

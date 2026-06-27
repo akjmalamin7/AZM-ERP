@@ -11,6 +11,7 @@ import {
   add_cart_item_controller,
   all_brands,
   brands_create,
+  canceled_order,
   category_create,
   create_cart_controller,
   customers_create,
@@ -20,6 +21,7 @@ import {
   get_brand,
   get_cart_controller,
   get_categories,
+  get_invoice_controller,
   get_order,
   get_product,
   orders_create,
@@ -97,6 +99,7 @@ router.post("/product-codes/create", product_code_create);
 router.post("/orders/create", authMiddleware, orders_create);
 router.get("/orders/all", authMiddleware, get_all_orders);
 router.get("/orders/:id", authMiddleware, get_order);
+router.get("/orders/cancel/:id", authMiddleware, canceled_order);
 
 // cart
 router.post("/cart/create", authMiddleware, create_cart_controller);
@@ -106,6 +109,9 @@ router.post("/cart/add-item", authMiddleware, add_cart_item_controller);
 router.patch("/cart/update-item", authMiddleware, update_cart_item_controller);
 router.delete("/cart/remove-item", authMiddleware, remove_cart_item_controller);
 router.post("/checkout", authMiddleware, checkout_cart_controller);
+
+// invoice
+router.get("/invoice/:id", authMiddleware, get_invoice_controller);
 
 // category
 router.post("/categories/create", category_create);
