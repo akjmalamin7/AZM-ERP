@@ -8,6 +8,11 @@ import {
   salary_create,
 } from "@/controllers/accounts";
 import {
+  delete_file_controller,
+  upload_file_controller,
+} from "@/controllers/file/upload_file_controller";
+import { handleFileUpload } from "@/controllers/file/uploadMiddleware";
+import {
   add_cart_item_controller,
   all_brands,
   brands_create,
@@ -215,4 +220,16 @@ router.patch(
   update_sms_integration_controller,
 );
 router.post("/sms/send", authMiddleware, send_sms_controller);
+
+/******************************
+ * files
+ ******************************/
+router.post(
+  "/file/upload",
+  authMiddleware,
+  handleFileUpload,
+  upload_file_controller,
+);
+router.delete("/file/delete/:id", authMiddleware, delete_file_controller);
+
 export default router;
