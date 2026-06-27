@@ -14,6 +14,8 @@ export interface IOrder extends Document {
   status: "completed" | "cancelled";
   payment_status: "paid" | "unpaid" | "partial";
   cancel_reason: string;
+  due_amount: number;
+  paid_amount: number;
   cancelled_at?: string;
   user?: string;
 }
@@ -21,6 +23,15 @@ const order_schema = new Schema<IOrder>(
   {
     invoice_number: { type: String, required: true },
     customer: { type: Types.ObjectId, ref: "Customer" },
+    paid_amount: {
+      type: Number,
+      default: 0,
+    },
+
+    due_amount: {
+      type: Number,
+      default: 0,
+    },
     items: [
       {
         product: {

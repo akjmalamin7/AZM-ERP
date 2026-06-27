@@ -96,8 +96,8 @@ export const add_cart_item_service = async <T extends Document>({
       cartData.items.push({
         product: productData._id,
         quantity: Number(quantity),
-        price: productData.sale_price,
-        subtotal: Number(quantity) * productData.sale_price,
+        price: productData.price,
+        subtotal: Number(quantity) * productData.price,
       });
     }
 

@@ -5,7 +5,7 @@ export interface IUser extends Document {
   password: string;
   role: "super_admin" | "admin" | "employee";
   status: "active" | "inactive";
-
+  must_change_password: boolean;
   employee_id: string;
   allowedMenus: string[];
   generate_jwt(): string;
@@ -30,6 +30,10 @@ const userSchema = new Schema<IUser>(
       type: String,
       required: true,
       unique: true,
+    },
+    must_change_password: {
+      type: Boolean,
+      default: false,
     },
     allowedMenus: {
       type: [

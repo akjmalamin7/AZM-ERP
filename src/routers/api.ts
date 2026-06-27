@@ -39,11 +39,14 @@ import {
   get_all_customers,
   get_customer,
 } from "@/controllers/inventory/customers_controllers";
+import { receive_order_payment_controller } from "@/controllers/inventory/receive_order_payment_controller";
 import {
   get_all_profiles,
   get_profile,
   login_controller,
   registration_controller,
+  reset_password_controller,
+  update_password_controller,
   update_profile,
 } from "@/controllers/users";
 import authMiddleware from "@/middlewares/authMiddleWares";
@@ -84,7 +87,17 @@ router.get("/profile/all", authMiddleware, get_all_profiles);
 
 // user login
 router.post("/login", login_controller);
-
+router.patch(
+  "/users/update-password",
+  authMiddleware,
+  update_password_controller,
+);
+router.patch(
+  "/users/reset-password/:id",
+  authMiddleware,
+  authorize("admin"),
+  reset_password_controller,
+);
 /******************************
  * inventory
  ******************************/
@@ -100,6 +113,11 @@ router.post("/orders/create", authMiddleware, orders_create);
 router.get("/orders/all", authMiddleware, get_all_orders);
 router.get("/orders/:id", authMiddleware, get_order);
 router.get("/orders/cancel/:id", authMiddleware, canceled_order);
+router.post(
+  "/orders/payment",
+  authMiddleware,
+  receive_order_payment_controller,
+);
 
 // cart
 router.post("/cart/create", authMiddleware, create_cart_controller);

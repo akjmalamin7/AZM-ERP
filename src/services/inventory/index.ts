@@ -21,6 +21,7 @@ export { get_order_service } from "./get_order_service";
 export { get_product_service } from "./get_product_service";
 export { create_low_stock_alert_service } from "./low_stock_alert_service";
 export { cancel_order_service } from "./order_canceled_service";
+export { receive_order_payment_service } from "./receive_order_payment_service";
 export { remove_cart_item_service } from "./remove_cart_item_service";
 export { update_customer_service } from "./update_customer_service";
 export { update_low_stock_service } from "./update_low_stock_read_status";

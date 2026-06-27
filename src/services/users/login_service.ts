@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import UserModel from "@/models/users/user_model";
+import { UserModel } from "@/models/users";
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 
@@ -66,6 +66,7 @@ export const loginService = async (req: Request, res: Response) => {
         status: user.status,
         employee_id: user.employee_id,
         allowedMenus: user.allowedMenus,
+        must_change_password: user.must_change_password,
       },
     });
   } catch (error: any) {

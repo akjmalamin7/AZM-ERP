@@ -16,7 +16,7 @@ export const checkout_cart_service = async <T extends Document>({
   const user = (req as any)?.user?._id;
 
   try {
-    const { cart, payment_status = "paid" } = req.body;
+    const { cart, payment_status = "paid", paid_amount = 0 } = req.body;
 
     // ------------------------
     // Validation
@@ -43,6 +43,14 @@ export const checkout_cart_service = async <T extends Document>({
       });
     }
 
+    if (payment_status === "partial") {
+      if (paid_amount === undefined || Number(paid_amount) <= 0) {
+        return res.status(400).json({
+          status: "failed",
+          message: "paid_amount is required for partial payment.",
+        });
+      }
+    }
     // ------------------------
     // Find Cart
     // ------------------------
@@ -110,29 +118,48 @@ export const checkout_cart_service = async <T extends Document>({
       }
     }
 
+    let orderPaidAmount = 0;
+    let orderDueAmount = cartData.total;
+
+    if (payment_status === "paid") {
+      orderPaidAmount = cartData.total;
+      orderDueAmount = 0;
+    }
+
+    if (payment_status === "unpaid") {
+      orderPaidAmount = 0;
+      orderDueAmount = cartData.total;
+    }
+
+    if (payment_status === "partial") {
+      if (Number(paid_amount) > cartData.total) {
+        return res.status(400).json({
+          status: "failed",
+          message: "Paid amount cannot exceed total amount.",
+        });
+      }
+
+      orderPaidAmount = Number(paid_amount);
+      orderDueAmount = cartData.total - Number(paid_amount);
+    }
     // ------------------------
     // Prepare Order Data
     // ------------------------
 
     const orderData = {
       invoice_number,
-
       customer: cartData.customer._id,
-
       items: cartData.items.map((item: any) => ({
         product: item.product._id,
         quantity: item.quantity,
         price: item.price,
       })),
-
-      subtotal: cartData.subtotal,
-
-      discount: cartData.discount,
-
-      total: cartData.total,
-
       payment_status,
-
+      paid_amount: orderPaidAmount,
+      due_amount: orderDueAmount,
+      subtotal: cartData.subtotal,
+      discount: cartData.discount,
+      total: cartData.total,
       user,
     };
 
@@ -194,7 +221,7 @@ export const checkout_cart_service = async <T extends Document>({
 
     if (payment_status === "paid") {
       await BalanceManager.credit({
-        amount: cartData.total,
+        amount: orderPaidAmount,
         reason: "sale",
         note: `Invoice: ${invoice_number}`,
         user,
