@@ -40,6 +40,7 @@ import {
   get_customer,
 } from "@/controllers/inventory/customers_controllers";
 import { receive_order_payment_controller } from "@/controllers/inventory/receive_order_payment_controller";
+import { dashboard_controller } from "@/controllers/reports";
 import {
   get_all_profiles,
   get_profile,
@@ -193,5 +194,5 @@ router.post(
  ******************************/
 router.get("/report", authMiddleware, dashboardReportService);
 router.get("/salary/report", authMiddleware, salaryReportService);
-
+router.get("/dashboard", authMiddleware, dashboard_controller);
 export default router;
