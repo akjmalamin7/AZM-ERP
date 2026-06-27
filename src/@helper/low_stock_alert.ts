@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import LowStockAlertModel from "@/models/low-stock-alert/low_stock_alert_model";
+
+import { LowStockAlertModel } from "@/models/inventory";
 
 class LowStockService {
   static async check({ product, sent_to }: { product: any; sent_to: string }) {

@@ -1,8 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import BalanceModel from "@/models/balance/balance_model";
-import TransactionModel from "@/models/balance/transaction_model";
 
-type Reason = "sale" | "salary" | "loan" | "expense" | "investment" | "other";
+import { BalanceModel, TransactionModel } from "@/models/accounts";
+
+type Reason =
+  | "sale"
+  | "salary"
+  | "loan"
+  | "loan_installment"
+  | "expense"
+  | "investment"
+  | "other";
 
 type Type = "credit" | "debit";
 

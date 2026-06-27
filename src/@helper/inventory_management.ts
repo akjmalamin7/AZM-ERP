@@ -1,5 +1,4 @@
-import LowStockAlertModel from "@/models/low-stock-alert/low_stock_alert_model";
-import ProductModel from "@/models/product/product_model";
+import { LowStockAlertModel, ProductModel } from "@/models/inventory";
 import LowStockService from "./low_stock_alert";
 
 class InventoryManager {
