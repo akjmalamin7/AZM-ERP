@@ -42,6 +42,11 @@ import {
 import { receive_order_payment_controller } from "@/controllers/inventory/receive_order_payment_controller";
 import { dashboard_controller } from "@/controllers/reports";
 import {
+  get_sms_integration_controller,
+  send_sms_controller,
+  update_sms_integration_controller,
+} from "@/controllers/sms";
+import {
   get_all_profiles,
   get_profile,
   login_controller,
@@ -195,4 +200,19 @@ router.post(
 router.get("/report", authMiddleware, dashboardReportService);
 router.get("/salary/report", authMiddleware, salaryReportService);
 router.get("/dashboard", authMiddleware, dashboard_controller);
+
+/******************************
+ * reports
+ ******************************/
+router.get(
+  "/sms/get-integration",
+  authMiddleware,
+  get_sms_integration_controller,
+);
+router.patch(
+  "/sms/update-integration",
+  authMiddleware,
+  update_sms_integration_controller,
+);
+router.post("/sms/send", authMiddleware, send_sms_controller);
 export default router;

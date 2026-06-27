@@ -1,17 +1,31 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "Node16",
+    "ignoreDeprecations": "6.0",
+    "target": "ES2022",
+    "module": "CommonJS",
+
     "rootDir": "./src",
+    "outDir": "./dist",
+
     "strict": true,
-    "moduleResolution": "node16",
+
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+
+    "moduleResolution": "node",
+
+    "resolveJsonModule": true,
+
     "skipLibCheck": true,
+
     "forceConsistentCasingInFileNames": true,
+
+    "baseUrl": "./src",
+
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["*"]
     }
   },
-
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

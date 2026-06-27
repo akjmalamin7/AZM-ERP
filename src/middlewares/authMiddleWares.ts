@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
@@ -33,11 +34,24 @@ const authMiddleware = (
 
     req.user = decoded;
     next();
-  } catch (err: unknown) {
-    console.log(err);
-    return res.status(400).json({
-      status: "fail",
-      message: "Invalid token",
+  } catch (error: any) {
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).json({
+        status: "failed",
+        message: "Token expired",
+      });
+    }
+
+    if (error.name === "JsonWebTokenError") {
+      return res.status(401).json({
+        status: "failed",
+        message: "Invalid token",
+      });
+    }
+
+    return res.status(500).json({
+      status: "failed",
+      message: "Authentication failed",
     });
   }
 };
